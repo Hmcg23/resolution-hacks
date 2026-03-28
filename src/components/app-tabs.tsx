@@ -14,17 +14,12 @@ export default function AppTabs() {
       indicatorColor={colors.backgroundElement}
       labelStyle={{ selected: { color: colors.text } }}>
       <NativeTabs.Trigger name="index">
-        <Label>Sync</Label>
+        <Label>Cycle View</Label>
         <Icon src={require('@/assets/images/tabIcons/home.png')} />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="explore">
-        <Label>Loadout</Label>
-        <Icon src={require('@/assets/images/tabIcons/explore.png')} />
-      </NativeTabs.Trigger>
-
       <NativeTabs.Trigger name="playbook">
-        <Label>Moves</Label>
+        <Label>Partner Tips</Label>
         <Icon src={require('@/assets/images/tabIcons/playbook.png')} />
       </NativeTabs.Trigger>
     </NativeTabs>

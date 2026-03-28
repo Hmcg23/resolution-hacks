@@ -1,38 +1,50 @@
+/**
+ * Women's tab navigator (web).
+ *
+ * OWNERSHIP: Women's developer — full ownership of this file.
+ * Mirrors the pattern of src/components/app-tabs.web.tsx exactly.
+ *
+ * Uses expo-router/ui for web-compatible tab navigation with
+ * the same floating pill aesthetic as the men's web tab bar.
+ */
+
 import {
-  Tabs,
   TabList,
-  TabTrigger,
-  TabSlot,
-  TabTriggerSlotProps,
   TabListProps,
+  TabSlot,
+  TabTrigger,
+  TabTriggerSlotProps,
+  Tabs,
 } from 'expo-router/ui';
 import React from 'react';
-import { Pressable, View, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
-import { ThemedText } from './themed-text';
-import { ThemedView } from './themed-view';
-
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 
-export default function AppTabs() {
+export default function WomenWebLayout() {
   return (
     <Tabs>
       <TabSlot style={{ height: '100%' }} />
       <TabList asChild>
-        <CustomTabList>
-          <TabTrigger name="index" href="/" asChild>
-            <TabButton>Cycle View</TabButton>
+        <WomenTabList>
+          <TabTrigger name="today" href="/women/today" asChild>
+            <TabButton>Today</TabButton>
           </TabTrigger>
-          <TabTrigger name="playbook" href="/playbook" asChild>
-            <TabButton>Partner Tips</TabButton>
+          <TabTrigger name="log" href="/women/log" asChild>
+            <TabButton>Log</TabButton>
           </TabTrigger>
-        </CustomTabList>
+          <TabTrigger name="history" href="/women/history" asChild>
+            <TabButton>History</TabButton>
+          </TabTrigger>
+        </WomenTabList>
       </TabList>
     </Tabs>
   );
 }
 
-export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps) {
+function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps) {
   return (
     <Pressable {...props} style={({ pressed }) => pressed && styles.pressed}>
       <ThemedView
@@ -46,17 +58,17 @@ export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps
   );
 }
 
-export function CustomTabList(props: TabListProps) {
+function WomenTabList(props: TabListProps) {
   return (
     <View {...props} style={styles.tabListContainer}>
       <ThemedView type="backgroundElement" style={styles.innerContainer}>
         <View style={styles.brandBlock}>
-          <ThemedText type="smallBold">Partner Lens</ThemedText>
+          <ThemedText type="smallBold">Partner Lens · Her Side</ThemedText>
+          {/* TODO: women-side dev — update tagline */}
           <ThemedText type="small" themeColor="textSecondary" numberOfLines={1}>
-            Science-backed education for partners—not medical advice.
+            Track your cycle. Share what matters.
           </ThemedText>
         </View>
-
         {props.children}
       </ThemedView>
     </View>

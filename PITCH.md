@@ -6,7 +6,7 @@ Straightforward outline for judges or investors: what we are, why we exist, how 
 
 ## 1. Open with the awkward truth (10–15 seconds)
 
-**Problem:** A lot of young men want to be better partners but never got solid education about periods, hormones, or birth control. That gap gets filled by jokes, bad takes, or silence—so empathy doesn’t have a chance.
+**Problem:** A lot of young men want to be better partners but never got solid education about periods and hormones. That gap gets filled by jokes, bad takes, or silence—so empathy doesn’t have a chance.
 
 **Our angle:** We’re not a replacement for clinicians or for apps like Flo. We’re **relationship literacy for partners**: science-backed, low shame, action-oriented.
 
@@ -46,9 +46,7 @@ Walk the app **left to right** (or in this order):
 
 ### Loadout — decisions for two
 
-- **What it shows:** Pick **Combo pill**, **IUD**, or **Mini-pill** → typical vs perfect-use effectiveness (plain language) plus **illustrative** side-effect themes (Low / Med / High—not fake precision).
-- **Why it matters:** Birth control as a **shared brief** before a real clinician visit, not “her problem.”
-- **Collapsed section:** **Sexual health & consent** — short, factual, consent-forward (STIs vs pregnancy, check-ins, campus health).
+- Coming soon.
 
 ### Moves — what you can do
 
@@ -62,7 +60,7 @@ Walk the app **left to right** (or in this order):
 1. **Hook:** “Guys are told to care—but not taught how hormones actually work. We fix that in under a minute.”
 2. **Sync:** Show dual strips; adjust cycle day; tagline hits **relationship skill + fewer surprise fights**, not “biology class.”
 3. **Moves:** “Same day, different tab—concrete things to do this week.”
-4. **Loadout:** “When the conversation turns to birth control, here’s a neutral way to compare methods—then you still talk to a clinician.”
+4. **Loadout:** Coming soon.
 5. **Close:** “Education for two. Not a sex app—a literacy tool for partners, especially in college when stakes are high and resources are thin.”
 
 ---

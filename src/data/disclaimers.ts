@@ -4,4 +4,4 @@ export const CYCLE_MODEL_DISCLAIMER =
 
 /** General app footer / settings-style notice */
 export const MEDICAL_DISCLAIMER =
-  'For education only, not medical advice. A clinician can help with hormones, birth control, pain, mood, and sexual health.';
+  'For education only, not medical advice. A clinician can help with hormones, pain, mood, and sexual health.';

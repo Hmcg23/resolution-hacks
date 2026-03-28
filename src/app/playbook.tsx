@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, ScrollView, StyleSheet } from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -7,6 +7,7 @@ import { ThemedView } from '@/components/themed-view';
 import { WebBadge } from '@/components/web-badge';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useCycleDay } from '@/context/cycle-day-context';
+import { COUPLE, todaySummary } from '@/data/mockCouple';
 import { MEDICAL_DISCLAIMER } from '@/data/disclaimers';
 import { useTheme } from '@/hooks/use-theme';
 import { getCyclePhase, type CyclePhaseId } from '@/lib/cyclePhase';
@@ -112,6 +113,26 @@ export default function PlaybookScreen() {
           </ThemedText>
         </ThemedView>
 
+        {/* From her today — shows when Alex has shared a log entry */}
+        {/* Men's dev: this data comes from src/data/mockCouple.ts → todaySummary */}
+        {todaySummary && (
+          <ThemedView type="backgroundElement" style={styles.heroCard}>
+            <ThemedText type="smallBold" themeColor="textSecondary">
+              From {COUPLE.womanName} today
+            </ThemedText>
+            <ThemedText type="small">{todaySummary.summaryText}</ThemedText>
+            {todaySummary.recommendations.length > 0 && (
+              <View style={styles.recList}>
+                {todaySummary.recommendations.map((rec, i) => (
+                  <ThemedText key={i} type="small" themeColor="textSecondary">
+                    • {rec}
+                  </ThemedText>
+                ))}
+              </View>
+            )}
+          </ThemedView>
+        )}
+
         <ThemedView type="backgroundElement" style={styles.heroCard}>
           <ThemedText type="smallBold" themeColor="textSecondary">
             This week in the model
@@ -207,5 +228,9 @@ const styles = StyleSheet.create({
   footer: {
     lineHeight: 20,
     marginTop: Spacing.three,
+  },
+  recList: {
+    gap: Spacing.two,
+    marginTop: Spacing.one,
   },
 });
