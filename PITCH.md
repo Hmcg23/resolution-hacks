@@ -32,37 +32,36 @@ If asked *“Why not just read a website?”* — **Because the app pairs educat
 
 ## 4. App structure (three tabs)
 
+Tab bar labels: **Sync** | **Loadout** | **Moves** (same routes as before; names match how we talk to users).
+
 Walk the app **left to right** (or in this order):
 
-### Dashboard — “Dual engine”
+### Sync — two rhythms, one team
 
-- **What it shows:** Two layers of biology side by side.
-  - **Testosterone (24h):** Idealized daily rhythm; marker follows **current clock hour** so it feels “live.”
-  - **Estrogen + progesterone (28-day model):** Two strips over a textbook cycle; marker follows **cycle day** you set for the demo.
-- **Why it matters:** Makes her invisible hormonal experience **legible** next to something he already intuits (energy going up and down in a day).
-- **Say this:** *“These are educational models, not medical predictions for any one person.”* (The screen says that too.)
+- **What it shows:** Two layers side by side—**your 24h energy curve** (clock-hour marker) and **her ~4-week model** (two curves, plain-language labels). **Cycle day** is manual in the demo; copy says future sync is her choice.
+- **Why it matters:** Reframes “period app” as **relationship skill**—fewer surprise arguments, better-timed plans—without pink UI or diary vibes.
+- **Say this:** *“Educational models, not medical predictions.”* Clinical names appear only as small print for accuracy.
 
-**Demo move:** Tap **+ / −** on cycle day and watch the marker move; then open Playbook to show it stays in sync.
+**Demo move:** Tap **+ / −** on cycle day; open **Moves** to show the same day drives prompts.
 
-### Loadout — birth control as a shared decision
+### Loadout — decisions for two
 
 - **What it shows:** Pick **Combo pill**, **IUD**, or **Mini-pill** → typical vs perfect-use effectiveness (plain language) plus **illustrative** side-effect themes (Low / Med / High—not fake precision).
-- **Why it matters:** Reframes BC from “her thing” to **a team briefing** with room for clinician follow-up.
-- **Collapsed section:** **Sexual health & consent** — short, factual, consent-forward (STIs vs pregnancy, check-ins, escalate to campus health / clinicians).
+- **Why it matters:** Birth control as a **shared brief** before a real clinician visit, not “her problem.”
+- **Collapsed section:** **Sexual health & consent** — short, factual, consent-forward (STIs vs pregnancy, check-ins, campus health).
 
-### Playbook — what to do with the information
+### Moves — what you can do
 
-- **What it shows:** Cards driven by the **same cycle day** as the Dashboard: phase summary plus practical, low-cringe suggestions (plans, tone, not interrogating).
-- **Plus:** “Always useful” cards (learn out loud, her body her call).
-- **Why it matters:** Closes the loop from **data → behavior** without playing therapist.
+- **What it shows:** **Partner-first headlines** for the model phase (“wind-down week,” not “luteal lecture”) plus actionable cards. **Always decent moves** for any week (no shaming, admits selfish benefits).
+- **Why it matters:** Closes **data → behavior**; targets guys who feel helpless, not gross.
 
 ---
 
 ## 5. Suggested flow (60–90 seconds)
 
 1. **Hook:** “Guys are told to care—but not taught how hormones actually work. We fix that in under a minute.”
-2. **Dashboard:** Show dual strips; adjust cycle day; read the one-line tagline about same relationship, different biology.
-3. **Playbook:** “Same day, different tab—here’s how you might actually show up this week.”
+2. **Sync:** Show dual strips; adjust cycle day; tagline hits **relationship skill + fewer surprise fights**, not “biology class.”
+3. **Moves:** “Same day, different tab—concrete things to do this week.”
 4. **Loadout:** “When the conversation turns to birth control, here’s a neutral way to compare methods—then you still talk to a clinician.”
 5. **Close:** “Education for two. Not a sex app—a literacy tool for partners, especially in college when stakes are high and resources are thin.”
 
@@ -88,4 +87,32 @@ Walk the app **left to right** (or in this order):
 
 - [ ] Expo Go / device charged; **cycle day** preset to a phase you want to talk about (e.g. luteal for “movie night” examples).
 - [ ] You’ve said **“educational model”** out loud at least once.
-- [ ] You can name all **three tabs** in order and one sentence each.
+- [ ] You can name all **three tabs** (Sync, Loadout, Moves) in order and one sentence each.
+
+---
+
+## 9. College couples & voice (product north star)
+
+**Reframe for guys:** Not “learn periods”—**show up better with less awkwardness**. Selfish benefits are OK to say: better-timed dates, fewer fights you didn’t see coming, knowing when to give space.
+
+**Language**
+
+- Avoid “period tracker” in partner-facing copy; we use **sync / rhythm / moves**.
+- Prefer **plain week-types** over clinic words in headlines (“wind-down week” vs leading with “luteal”). Keep technical labels as **small print** for honesty and judges.
+- **Never shame** (“most men don’t know…”)—defensiveness kills retention. Warm, slightly self-aware humor is fine if it punches up, not down.
+- **No pink, no flowers** — already on dark, neutral UI; keep it.
+
+**What’s in the hackathon build vs stretch goals**
+
+| Idea | Status |
+|------|--------|
+| Shared rhythm view + manual day + Moves prompts | In app |
+| Partner “heads up” / notifications without raw medical detail | Stretch (needs trust + prefs) |
+| Mood / energy check-ins | Stretch |
+| Shared calendar overlay (Google/Apple) | Stretch |
+| Anonymous peer insights | Stretch |
+| Export / share cards for social | Stretch |
+| Roommate cycle sync, class schedule | Stretch / conversation piece |
+| Free tier, no predatory paywall | Aligns with product; not built in demo |
+
+Use this table when judges ask “what’s next?”—you have a credible roadmap without overpromising the MVP.

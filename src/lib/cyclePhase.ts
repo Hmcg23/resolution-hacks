@@ -2,10 +2,12 @@ export type CyclePhaseId = 'menstrual' | 'follicular' | 'ovulation' | 'luteal';
 
 export type CyclePhaseInfo = {
   id: CyclePhaseId;
-  /** Short UI label */
-  label: string;
-  /** One line for dashboards */
-  summary: string;
+  /** Plain headline for partners (no shame, minimal jargon) */
+  partnerTitle: string;
+  /** One or two sentences, friend tone */
+  partnerSummary: string;
+  /** Tiny print for accuracy / judges—optional in UI */
+  technicalLabel: string;
 };
 
 const PHASES: { maxDay: number; info: CyclePhaseInfo }[] = [
@@ -13,32 +15,40 @@ const PHASES: { maxDay: number; info: CyclePhaseInfo }[] = [
     maxDay: 5,
     info: {
       id: 'menstrual',
-      label: 'Menstrual',
-      summary: 'Bleeding days in a typical model cycle—energy and comfort vary a lot person to person.',
+      partnerTitle: 'Low-energy / reset week (for many)',
+      partnerSummary:
+        'Lots of people feel wiped or crampy—not everyone. Low-key plans and having supplies on hand go a long way. No need to make a speech.',
+      technicalLabel: 'Menstrual phase (model)',
     },
   },
   {
     maxDay: 13,
     info: {
       id: 'follicular',
-      label: 'Follicular',
-      summary: 'Estrogen tends to climb in this model—often described as clearer mood and more energy for many people.',
+      partnerTitle: 'Social battery often comes back',
+      partnerSummary:
+        'In this rough model, many people feel clearer and more up for people and plans. Still ask—she’s not a textbook.',
+      technicalLabel: 'Follicular phase (model)',
     },
   },
   {
     maxDay: 16,
     info: {
       id: 'ovulation',
-      label: 'Ovulation window',
-      summary: 'Mid-cycle in this textbook curve—hormone shifts can mean peak energy or sensitivity; everyone differs.',
+      partnerTitle: 'High-voltage week for some',
+      partnerSummary:
+        'Mid-cycle can mean big energy—or feeling overstimulated. Offer options instead of locking in one plan.',
+      technicalLabel: 'Ovulation window (model)',
     },
   },
   {
     maxDay: 28,
     info: {
       id: 'luteal',
-      label: 'Luteal',
-      summary: 'Progesterone is higher in this model—some people feel PMS-type symptoms; not a rule for any individual.',
+      partnerTitle: 'Wind-down week (stress or fatigue for some)',
+      partnerSummary:
+        'Some people feel irritable, tender, or tired before their period—many don’t. Patience and flexible plans beat pep talks.',
+      technicalLabel: 'Luteal phase (model)',
     },
   },
 ];

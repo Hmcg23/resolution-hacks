@@ -14,7 +14,7 @@ export default function AppTabs() {
       indicatorColor={colors.backgroundElement}
       labelStyle={{ selected: { color: colors.text } }}>
       <NativeTabs.Trigger name="index">
-        <Label>Dashboard</Label>
+        <Label>Sync</Label>
         <Icon src={require('@/assets/images/tabIcons/home.png')} />
       </NativeTabs.Trigger>
 
@@ -24,7 +24,7 @@ export default function AppTabs() {
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="playbook">
-        <Label>Playbook</Label>
+        <Label>Moves</Label>
         <Icon src={require('@/assets/images/tabIcons/playbook.png')} />
       </NativeTabs.Trigger>
     </NativeTabs>

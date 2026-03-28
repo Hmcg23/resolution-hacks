@@ -19,54 +19,58 @@ type PlaybookCard = {
 const PHASE_TIPS: Record<CyclePhaseId, PlaybookCard[]> = {
   menstrual: [
     {
-      title: 'Low-pressure plans',
-      body: 'Comfort and energy vary—cozy movie night or quiet takeout often land better than a big night out.',
+      title: 'Keep plans soft',
+      body: 'Movie night, takeout, or staying in beats a packed bar if she’s not feeling it. You’re not “boring”—you’re flexible.',
     },
     {
-      title: 'Supplies & logistics',
-      body: 'Having products, pain relief, and a heat pack on hand is practical support without making it a big speech.',
+      title: 'Snack / supplies MVP',
+      body: 'Grab the thing she likes, keep pain meds or a heat pack around if she uses them. Practical beats performative.',
     },
   ],
   follicular: [
     {
-      title: 'Ride the upswing',
-      body: 'In this model, estrogen is climbing—many people feel more social and energetic. Good window for hikes, dates, or group plans.',
+      title: 'Good window to suggest fun stuff',
+      body: 'Hikes, shows, double dates—many people have more gas in the tank here. If she says no, drop it; the model isn’t a mind reader.',
     },
     {
-      title: 'Ask, don’t assume',
-      body: '“Up for something active?” beats guessing. She might still want rest—biology is population-level, not a rule.',
+      title: 'One question > guessing',
+      body: '“Want to do something social this weekend or keep it chill?” lands better than assuming based on a chart.',
     },
   ],
   ovulation: [
     {
-      title: 'Peak bandwidth (maybe)',
-      body: 'Mid-cycle can feel great for some and overstimulating for others. Offer options and read the room.',
+      title: 'Offer options, not one locked plan',
+      body: 'Some people feel amazing; some feel overstimulated. “A or B?” gives her an out either way.',
     },
   ],
   luteal: [
     {
-      title: 'Progesterone story',
-      body: 'In the model, progesterone is higher—some people feel sluggish, irritable, or tender. Patience > pep talks.',
+      title: 'Assume nothing, lower the pressure',
+      body: 'If she’s snappy or tired, it might be nothing—or it might be a rough week. Space and low chores often read as care.',
     },
     {
-      title: 'Swap the plan',
-      body: 'Suggest a mellow night in instead of a loud venue. Small comforts (food, sleep, low chores) read as care.',
+      title: 'Swap the vibe, not her',
+      body: 'Quieter night, earlier bedtime, you handling a chore she hates—small moves. Skip “just think positive.”',
     },
   ],
 };
 
 const GENERAL_CARDS: PlaybookCard[] = [
   {
-    title: 'You’re allowed to learn out loud',
-    body: 'Most people were never taught this stuff. Curiosity and humility go further than pretending you already know.',
+    title: 'You’re already ahead',
+    body: 'Opening this app is more than most people do. You’re not expected to be an expert—just less clueless and less weird about asking.',
   },
   {
-    title: 'Check in without interrogating',
-    body: 'Short, specific questions beat monitoring. “How are you feeling about tonight?” works better than quizzing cycle details.',
+    title: 'Selfish benefits count too',
+    body: 'Fewer fights you didn’t see coming, better-timed date ideas, and less foot-in-mouth. Empathy often follows once the awkwardness drops.',
+  },
+  {
+    title: 'Check in, don’t interrogate',
+    body: 'Short questions about tonight or this week beat monitoring her like a spreadsheet.',
   },
   {
     title: 'Her body, her call',
-    body: 'Your job is support and shared education—not decisions about her health choices.',
+    body: 'You support; you don’t decide her health choices. When in doubt, ask what would help—or offer something concrete.',
   },
 ];
 
@@ -101,20 +105,23 @@ export default function PlaybookScreen() {
       contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
       <ThemedView style={styles.container}>
         <ThemedView style={styles.header}>
-          <ThemedText type="subtitle">Playbook</ThemedText>
+          <ThemedText type="subtitle">What you can do</ThemedText>
           <ThemedText style={styles.lede} themeColor="textSecondary">
-            Short ideas based on the cycle day you set on the Dashboard ({cycleDay} → {phase.label}). Not a script—adapt
-            to your partner.
+            Plain prompts based on the day you set on the sync screen (day {cycleDay}). Not a script—steal the vibe, not
+            the words.
           </ThemedText>
         </ThemedView>
 
         <ThemedView type="backgroundElement" style={styles.heroCard}>
           <ThemedText type="smallBold" themeColor="textSecondary">
-            Now (model phase)
+            This week in the model
           </ThemedText>
-          <ThemedText type="subtitle">{phase.label}</ThemedText>
+          <ThemedText type="subtitle">{phase.partnerTitle}</ThemedText>
           <ThemedText type="small" themeColor="textSecondary" style={styles.heroBody}>
-            {phase.summary}
+            {phase.partnerSummary}
+          </ThemedText>
+          <ThemedText type="small" themeColor="textSecondary" style={styles.technical}>
+            {phase.technicalLabel}
           </ThemedText>
         </ThemedView>
 
@@ -123,7 +130,7 @@ export default function PlaybookScreen() {
         ))}
 
         <ThemedText type="smallBold" style={styles.sectionLabel}>
-          Always useful
+          Always decent moves
         </ThemedText>
         {GENERAL_CARDS.map((card) => (
           <Card key={card.title} title={card.title} body={card.body} />
@@ -180,6 +187,11 @@ const styles = StyleSheet.create({
   heroBody: {
     lineHeight: 22,
     marginTop: Spacing.one,
+  },
+  technical: {
+    marginTop: Spacing.two,
+    opacity: 0.85,
+    fontSize: 12,
   },
   sectionLabel: {
     marginTop: Spacing.two,

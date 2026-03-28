@@ -40,17 +40,18 @@ export default function DashboardScreen() {
           showsVerticalScrollIndicator={false}>
           <ThemedView style={styles.inner}>
             <ThemedText type="title" style={styles.title}>
-              Dual engine
+              Two rhythms, one team
             </ThemedText>
             <ThemedText style={styles.tagline} themeColor="textSecondary">
-              Same relationship, different biology—population curves for context, not a verdict on anyone&apos;s body.
+              Relationship skill, not a period quiz—see rough energy patterns so you can plan dates, give space, and
+              dodge avoidable arguments. Models only; she&apos;s the source of truth on how she feels.
             </ThemedText>
 
             <ThemedView type="backgroundElement" style={styles.card}>
-              <ThemedText type="subtitle">Testosterone (24h model)</ThemedText>
+              <ThemedText type="subtitle">Your 24-hour energy rhythm</ThemedText>
               <ThemedText type="small" themeColor="textSecondary" style={styles.cardLede}>
-                Typical pattern: higher after sleep, lower late evening. Marker = your current clock hour. Y-axis is
-                0–100% of this model curve (relative, not blood-test values).
+                Typical male-pattern curve: stronger after sleep, quieter late night. Dot follows your phone&apos;s clock
+                hour. Chart is 0–100% of this demo curve—not lab numbers.
               </ThemedText>
               <CycleStripChart
                 values={TESTOSTERONE_24H}
@@ -65,14 +66,15 @@ export default function DashboardScreen() {
 
             <ThemedView type="backgroundElement" style={styles.card}>
               <View style={styles.cardHeaderRow}>
-                <ThemedText type="subtitle">Estrogen / progesterone (28-day model)</ThemedText>
+                <ThemedText type="subtitle">Her ~4-week rhythm (rough model)</ThemedText>
               </View>
               <ThemedText type="small" themeColor="textSecondary" style={styles.cardLede}>
-                Two hormones on a simplified cycle. Marker = cycle day you set below (day {cycleDay} → {phase.label}).
-                Y-axis is 0–100% of each model curve (not lab units)—so you compare shape, not absolute hormone amounts.
+                Two curves behind the scenes (energy / stress-ish patterns many apps never show partners). Move the day
+                below to match where she is in her cycle—day {cycleDay}. Y-axis is 0–100% of each demo curve so you see
+                shape, not lab units.
               </ThemedText>
               <ThemedText type="smallBold" style={styles.rowLabel}>
-                Estrogen
+                Curve A — often tracks &quot;social / upbeat&quot; vibes in the model
               </ThemedText>
               <CycleStripChart
                 values={ESTROGEN_28}
@@ -83,7 +85,7 @@ export default function DashboardScreen() {
                 endLabel="D28"
               />
               <ThemedText type="smallBold" style={[styles.rowLabel, styles.secondHormone]}>
-                Progesterone
+                Curve B — often tracks wind-down / stressy weeks for some people
               </ThemedText>
               <CycleStripChart
                 values={PROGESTERONE_28}
@@ -96,9 +98,10 @@ export default function DashboardScreen() {
             </ThemedView>
 
             <ThemedView type="backgroundElement" style={styles.card}>
-              <ThemedText type="subtitle">Cycle day (demo input)</ThemedText>
+              <ThemedText type="subtitle">Where is she in the month? (demo slider)</ThemedText>
               <ThemedText type="small" themeColor="textSecondary" style={styles.cardLede}>
-                Adjust to explore the curve. Playbook uses this same day.
+                For the hackathon this is manual—later it&apos;s her choice what (if anything) syncs. The Moves tab uses
+                this same day.
               </ThemedText>
               <View style={styles.stepper}>
                 <Pressable
@@ -120,9 +123,12 @@ export default function DashboardScreen() {
                 </Pressable>
               </View>
               <ThemedView style={[styles.phasePill, { borderColor: theme.textSecondary }]}>
-                <ThemedText type="smallBold">{phase.label}</ThemedText>
+                <ThemedText type="smallBold">{phase.partnerTitle}</ThemedText>
                 <ThemedText type="small" themeColor="textSecondary" style={styles.phaseSummary}>
-                  {phase.summary}
+                  {phase.partnerSummary}
+                </ThemedText>
+                <ThemedText type="small" themeColor="textSecondary" style={styles.technicalHint}>
+                  {phase.technicalLabel}
                 </ThemedText>
               </ThemedView>
             </ThemedView>
@@ -219,6 +225,11 @@ const styles = StyleSheet.create({
   },
   phaseSummary: {
     lineHeight: 20,
+  },
+  technicalHint: {
+    marginTop: Spacing.two,
+    fontSize: 12,
+    opacity: 0.85,
   },
   disclaimerBlock: {
     paddingHorizontal: Spacing.two,

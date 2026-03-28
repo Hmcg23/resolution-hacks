@@ -57,10 +57,10 @@ export default function LoadoutScreen() {
       contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
       <ThemedView style={styles.container}>
         <ThemedView style={styles.header}>
-          <ThemedText type="subtitle">Loadout</ThemedText>
+          <ThemedText type="subtitle">Decisions for two</ThemedText>
           <ThemedText style={styles.lede} themeColor="textSecondary">
-            Compare methods like a shared brief—not a prescription. Numbers are typical public-health ranges; bodies
-            vary.
+            Birth control isn&apos;t a solo stat sheet—here&apos;s a neutral compare screen you can use before a clinic
+            visit. Typical-use numbers from public-health ranges; every body is different.
           </ThemedText>
         </ThemedView>
 
