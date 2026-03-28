@@ -23,7 +23,6 @@ export default function WomenLayout() {
       backgroundColor={colors.background}
       indicatorColor={colors.backgroundElement}
       labelStyle={{ selected: { color: colors.text } }}>
-      {/* TODO: women-side dev — swap icons for women-specific assets when ready */}
       <NativeTabs.Trigger name="today">
         <Label>Today</Label>
         <Icon src={require('@/assets/images/tabIcons/home.png')} />

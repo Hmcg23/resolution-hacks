@@ -17,6 +17,7 @@ import {
   Tabs,
 } from 'expo-router/ui';
 import React from 'react';
+
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';

@@ -10,7 +10,6 @@
  * Uses router.replace() (not push) so there is no back stack between roles.
  */
 
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -27,16 +26,12 @@ const ROSE_ACTIVE_BG_DARK = '#3d1a1f';
 
 export function DemoRoleSwitcher() {
   const { role, setRole } = useRole();
-  const router = useRouter();
   const insets = useSafeAreaInsets();
 
+  // No router navigation needed — AppShell in _layout.tsx swaps components
+  // based on role alone, so just updating role is enough.
   function handleSwitch(next: Role) {
     setRole(next);
-    if (next === 'woman') {
-      router.replace('/women/today' as never);
-    } else {
-      router.replace('/' as never);
-    }
   }
 
   // On web the tab bar is at the top, so we float top-right instead
