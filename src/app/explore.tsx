@@ -1,24 +1,41 @@
-import { Image } from 'expo-image';
-import { SymbolView } from 'expo-symbols';
-import React from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ExternalLink } from '@/components/external-link';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Collapsible } from '@/components/ui/collapsible';
 import { WebBadge } from '@/components/web-badge';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import {
+  BIRTH_CONTROL_METHODS,
+  type BirthControlId,
+  type ImpactLevel,
+  getBirthControlById,
+} from '@/data/birthControl';
+import { MEDICAL_DISCLAIMER } from '@/data/disclaimers';
 import { useTheme } from '@/hooks/use-theme';
 
-export default function TabTwoScreen() {
+function impactLabel(level: ImpactLevel): string {
+  switch (level) {
+    case 'low':
+      return 'Low';
+    case 'medium':
+      return 'Med';
+    case 'high':
+      return 'High';
+  }
+}
+
+export default function LoadoutScreen() {
   const safeAreaInsets = useSafeAreaInsets();
   const insets = {
     ...safeAreaInsets,
     bottom: safeAreaInsets.bottom + BottomTabInset + Spacing.three,
   };
   const theme = useTheme();
+  const [selected, setSelected] = useState<BirthControlId>('combo_pill');
+  const method = getBirthControlById(selected);
 
   const contentPlatformStyle = Platform.select({
     android: {
@@ -39,87 +56,90 @@ export default function TabTwoScreen() {
       contentInset={insets}
       contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
       <ThemedView style={styles.container}>
-        <ThemedView style={styles.titleContainer}>
-          <ThemedText type="subtitle">Explore</ThemedText>
-          <ThemedText style={styles.centerText} themeColor="textSecondary">
-            This starter app includes example{'\n'}code to help you get started.
+        <ThemedView style={styles.header}>
+          <ThemedText type="subtitle">Loadout</ThemedText>
+          <ThemedText style={styles.lede} themeColor="textSecondary">
+            Compare methods like a shared brief—not a prescription. Numbers are typical public-health ranges; bodies
+            vary.
           </ThemedText>
-
-          <ExternalLink href="https://docs.expo.dev" asChild>
-            <Pressable style={({ pressed }) => pressed && styles.pressed}>
-              <ThemedView type="backgroundElement" style={styles.linkButton}>
-                <ThemedText type="link">Expo documentation</ThemedText>
-                <SymbolView
-                  tintColor={theme.text}
-                  name={{ ios: 'arrow.up.right.square', android: 'link', web: 'link' }}
-                  size={12}
-                />
-              </ThemedView>
-            </Pressable>
-          </ExternalLink>
         </ThemedView>
 
-        <ThemedView style={styles.sectionsWrapper}>
-          <Collapsible title="File-based routing">
-            <ThemedText type="small">
-              This app has two screens: <ThemedText type="code">src/app/index.tsx</ThemedText> and{' '}
-              <ThemedText type="code">src/app/explore.tsx</ThemedText>
-            </ThemedText>
-            <ThemedText type="small">
-              The layout file in <ThemedText type="code">src/app/_layout.tsx</ThemedText> sets up
-              the tab navigator.
-            </ThemedText>
-            <ExternalLink href="https://docs.expo.dev/router/introduction">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
+        <ThemedText type="smallBold" style={styles.pickerLabel}>
+          Method
+        </ThemedText>
+        <View style={styles.chips}>
+          {BIRTH_CONTROL_METHODS.map((m) => {
+            const active = m.id === selected;
+            return (
+              <Pressable key={m.id} onPress={() => setSelected(m.id)} style={styles.chipPress}>
+                <ThemedView type={active ? 'backgroundSelected' : 'backgroundElement'} style={styles.chip}>
+                  <ThemedText type="small" themeColor={active ? 'text' : 'textSecondary'} numberOfLines={2}>
+                    {m.id === 'combo_pill' ? 'Combo pill' : m.id === 'iud' ? 'IUD' : 'Mini-pill'}
+                  </ThemedText>
+                </ThemedView>
+              </Pressable>
+            );
+          })}
+        </View>
 
-          <Collapsible title="Android, iOS, and web support">
-            <ThemedView type="backgroundElement" style={styles.collapsibleContent}>
-              <ThemedText type="small">
-                You can open this project on Android, iOS, and the web. To open the web version,
-                press <ThemedText type="smallBold">w</ThemedText> in the terminal running this
-                project.
+        <ThemedView type="backgroundElement" style={styles.panel}>
+          <ThemedText type="smallBold">{method.name}</ThemedText>
+
+          <View style={styles.statRow}>
+            <ThemedText type="smallBold" themeColor="textSecondary">
+              Typical use
+            </ThemedText>
+            <ThemedText type="small" style={styles.statBody}>
+              {method.effectivenessTypical}
+            </ThemedText>
+          </View>
+          <View style={styles.statRow}>
+            <ThemedText type="smallBold" themeColor="textSecondary">
+              Perfect use
+            </ThemedText>
+            <ThemedText type="small" style={styles.statBody}>
+              {method.effectivenessPerfect}
+            </ThemedText>
+          </View>
+
+          <ThemedText type="smallBold" style={styles.themesTitle}>
+            Common theme modifiers (illustrative)
+          </ThemedText>
+          {method.themes.map((t) => (
+            <View key={t.label} style={styles.themeLine}>
+              <ThemedText type="small" style={styles.themeLabel}>
+                {t.label}
               </ThemedText>
-              <Image
-                source={require('@/assets/images/tutorial-web.png')}
-                style={styles.imageTutorial}
-              />
-            </ThemedView>
-          </Collapsible>
+              <ThemedView type="backgroundSelected" style={styles.impactBadge}>
+                <ThemedText type="smallBold">{impactLabel(t.impact)}</ThemedText>
+              </ThemedView>
+            </View>
+          ))}
 
-          <Collapsible title="Images">
-            <ThemedText type="small">
-              For static images, you can use the <ThemedText type="code">@2x</ThemedText> and{' '}
-              <ThemedText type="code">@3x</ThemedText> suffixes to provide files for different
-              screen densities.
-            </ThemedText>
-            <Image source={require('@/assets/images/react-logo.png')} style={styles.imageReact} />
-            <ExternalLink href="https://reactnative.dev/docs/images">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
-
-          <Collapsible title="Light and dark mode components">
-            <ThemedText type="small">
-              This template has light and dark mode support. The{' '}
-              <ThemedText type="code">useColorScheme()</ThemedText> hook lets you inspect what the
-              user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-            </ThemedText>
-            <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
-
-          <Collapsible title="Animations">
-            <ThemedText type="small">
-              This template includes an example of an animated component. The{' '}
-              <ThemedText type="code">src/components/ui/collapsible.tsx</ThemedText> component uses
-              the powerful <ThemedText type="code">react-native-reanimated</ThemedText> library to
-              animate opening this hint.
-            </ThemedText>
-          </Collapsible>
+          <ThemedText type="small" themeColor="textSecondary" style={styles.clinician}>
+            {method.clinicianNote}
+          </ThemedText>
         </ThemedView>
+
+        <Collapsible title="Sexual health & consent (basics)">
+          <ThemedText type="small" style={styles.collapsibleP}>
+            Effectiveness numbers describe pregnancy prevention, not STI prevention—barriers and testing are separate
+            conversations.
+          </ThemedText>
+          <ThemedText type="small" style={styles.collapsibleP}>
+            Consent is ongoing, specific, and reversible. Checking in beats assuming—especially if energy, mood, or
+            discomfort shifts.
+          </ThemedText>
+          <ThemedText type="small" style={styles.collapsibleP}>
+            If something hurts, feels off, or worries either of you, a clinician or campus health center is the right
+            escalation—not this app.
+          </ThemedText>
+        </Collapsible>
+
+        <ThemedText type="small" themeColor="textSecondary" style={styles.footerDisclaimer}>
+          {MEDICAL_DISCLAIMER}
+        </ThemedText>
+
         {Platform.OS === 'web' && <WebBadge />}
       </ThemedView>
     </ScrollView>
@@ -137,45 +157,76 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: MaxContentWidth,
     flexGrow: 1,
+    paddingHorizontal: Spacing.four,
+    gap: Spacing.four,
+    paddingBottom: Spacing.six,
   },
-  titleContainer: {
+  header: {
     gap: Spacing.three,
-    alignItems: 'center',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.six,
+    paddingTop: Spacing.two,
   },
-  centerText: {
-    textAlign: 'center',
+  lede: {
+    lineHeight: 22,
   },
-  pressed: {
-    opacity: 0.7,
+  pickerLabel: {
+    marginBottom: -Spacing.two,
   },
-  linkButton: {
+  chips: {
     flexDirection: 'row',
-    paddingHorizontal: Spacing.four,
+    flexWrap: 'wrap',
+    gap: Spacing.two,
+  },
+  chipPress: {
+    flexGrow: 1,
+    flexBasis: '30%',
+  },
+  chip: {
     paddingVertical: Spacing.two,
-    borderRadius: Spacing.five,
-    justifyContent: 'center',
-    gap: Spacing.one,
-    alignItems: 'center',
-  },
-  sectionsWrapper: {
-    gap: Spacing.five,
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.three,
-  },
-  collapsibleContent: {
-    alignItems: 'center',
-  },
-  imageTutorial: {
-    width: '100%',
-    aspectRatio: 296 / 171,
+    paddingHorizontal: Spacing.three,
     borderRadius: Spacing.three,
+    alignItems: 'center',
+  },
+  panel: {
+    borderRadius: Spacing.four,
+    padding: Spacing.four,
+    gap: Spacing.three,
+  },
+  statRow: {
+    gap: Spacing.one,
+  },
+  statBody: {
+    lineHeight: 20,
+  },
+  themesTitle: {
     marginTop: Spacing.two,
   },
-  imageReact: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center',
+  themeLine: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: Spacing.three,
+  },
+  themeLabel: {
+    flex: 1,
+    lineHeight: 20,
+  },
+  impactBadge: {
+    paddingVertical: Spacing.half,
+    paddingHorizontal: Spacing.two,
+    borderRadius: Spacing.two,
+    minWidth: 44,
+    alignItems: 'center',
+  },
+  clinician: {
+    lineHeight: 20,
+    marginTop: Spacing.two,
+  },
+  collapsibleP: {
+    lineHeight: 22,
+    marginBottom: Spacing.three,
+  },
+  footerDisclaimer: {
+    lineHeight: 20,
+    marginTop: Spacing.two,
   },
 });
