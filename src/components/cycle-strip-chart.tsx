@@ -4,6 +4,11 @@ import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
+/** Chart strip height in px; bars scale as value × this height (values assumed in [0, 1]). */
+const PLOT_HEIGHT = 80;
+const MIN_BAR_HEIGHT = 3;
+const Y_AXIS_WIDTH = 36;
+
 type StripChartProps = {
   values: number[];
   /** 0-based index to highlight (e.g. current hour or cycle day) */
@@ -13,6 +18,8 @@ type StripChartProps = {
   /** Optional labels under first / last tick */
   startLabel?: string;
   endLabel?: string;
+  /** Shown above the chart; omit when the section heading already names the series */
+  yAxisTitle?: string;
 };
 
 export function CycleStripChart({
@@ -22,34 +29,65 @@ export function CycleStripChart({
   dimColor,
   startLabel,
   endLabel,
+  yAxisTitle,
 }: StripChartProps) {
   const theme = useTheme();
-  const max = Math.max(...values, 0.001);
 
   return (
     <View style={styles.wrap}>
-      <View style={styles.row}>
-        {values.map((v, i) => {
-          const h = Math.max(4, (v / max) * 56);
-          const isActive = i === activeIndex;
-          return (
-            <View key={i} style={styles.barSlot}>
+      {yAxisTitle ? (
+        <ThemedText type="small" themeColor="textSecondary" style={styles.yAxisTitle}>
+          {yAxisTitle} · scale 0–100%
+        </ThemedText>
+      ) : null}
+      <View style={styles.chartRow}>
+        <View style={[styles.yAxisLabels, { height: PLOT_HEIGHT }]}>
+          {['100%', '75%', '50%', '25%', '0%'].map((tick) => (
+            <ThemedText key={tick} type="small" themeColor="textSecondary" style={styles.yTick}>
+              {tick}
+            </ThemedText>
+          ))}
+        </View>
+        <View style={styles.plotWrap}>
+          <View style={[styles.gridLayer, { height: PLOT_HEIGHT }]}>
+            {[0, 0.25, 0.5, 0.75].map((t) => (
               <View
+                key={t}
                 style={[
-                  styles.bar,
+                  styles.gridLine,
                   {
-                    height: h,
-                    backgroundColor: isActive ? barColor : dimColor,
-                    opacity: isActive ? 1 : 0.45,
+                    bottom: `${t * 100}%`,
+                    backgroundColor: theme.textSecondary,
                   },
                 ]}
               />
-            </View>
-          );
-        })}
+            ))}
+          </View>
+          <View style={[styles.barRow, { height: PLOT_HEIGHT }]}>
+            {values.map((v, i) => {
+              const clamped = Math.min(1, Math.max(0, v));
+              const h = Math.max(MIN_BAR_HEIGHT, clamped * PLOT_HEIGHT);
+              const isActive = i === activeIndex;
+              return (
+                <View key={i} style={styles.barSlot}>
+                  <View
+                    style={[
+                      styles.bar,
+                      {
+                        height: h,
+                        backgroundColor: isActive ? barColor : dimColor,
+                        opacity: isActive ? 1 : 0.45,
+                      },
+                    ]}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        </View>
       </View>
       {(startLabel || endLabel) && (
-        <View style={styles.axis}>
+        <View style={[styles.xAxis, { marginLeft: Y_AXIS_WIDTH + Spacing.two }]}>
           {startLabel ? (
             <ThemedText type="small" themeColor="textSecondary">
               {startLabel}
@@ -66,7 +104,12 @@ export function CycleStripChart({
           )}
         </View>
       )}
-      <View style={[styles.markerLine, { backgroundColor: theme.textSecondary }]} />
+      <View
+        style={[
+          styles.markerLine,
+          { backgroundColor: theme.textSecondary, marginLeft: Y_AXIS_WIDTH + Spacing.two },
+        ]}
+      />
     </View>
   );
 }
@@ -75,11 +118,47 @@ const styles = StyleSheet.create({
   wrap: {
     gap: Spacing.two,
   },
-  row: {
+  yAxisTitle: {
+    marginBottom: Spacing.one,
+  },
+  chartRow: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    gap: Spacing.two,
+  },
+  yAxisLabels: {
+    width: Y_AXIS_WIDTH,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingRight: 2,
+  },
+  yTick: {
+    fontSize: 11,
+    lineHeight: 14,
+  },
+  plotWrap: {
+    flex: 1,
+    position: 'relative',
+  },
+  gridLayer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    zIndex: 0,
+  },
+  gridLine: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    height: StyleSheet.hairlineWidth,
+    opacity: 0.25,
+  },
+  barRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     gap: 2,
-    height: 60,
+    zIndex: 1,
   },
   barSlot: {
     flex: 1,
@@ -89,7 +168,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     width: '100%',
   },
-  axis: {
+  xAxis: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

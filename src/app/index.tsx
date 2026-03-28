@@ -49,7 +49,8 @@ export default function DashboardScreen() {
             <ThemedView type="backgroundElement" style={styles.card}>
               <ThemedText type="subtitle">Testosterone (24h model)</ThemedText>
               <ThemedText type="small" themeColor="textSecondary" style={styles.cardLede}>
-                Typical pattern: higher after sleep, lower late evening. Marker = your current clock hour.
+                Typical pattern: higher after sleep, lower late evening. Marker = your current clock hour. Y-axis is
+                0–100% of this model curve (relative, not blood-test values).
               </ThemedText>
               <CycleStripChart
                 values={TESTOSTERONE_24H}
@@ -58,6 +59,7 @@ export default function DashboardScreen() {
                 dimColor={MALE_DIM}
                 startLabel="12a"
                 endLabel="11p"
+                yAxisTitle="Relative level"
               />
             </ThemedView>
 
@@ -67,6 +69,7 @@ export default function DashboardScreen() {
               </View>
               <ThemedText type="small" themeColor="textSecondary" style={styles.cardLede}>
                 Two hormones on a simplified cycle. Marker = cycle day you set below (day {cycleDay} → {phase.label}).
+                Y-axis is 0–100% of each model curve (not lab units)—so you compare shape, not absolute hormone amounts.
               </ThemedText>
               <ThemedText type="smallBold" style={styles.rowLabel}>
                 Estrogen
