@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CycleStripChart } from '@/components/cycle-strip-chart';
+import { HerDayPager } from '@/components/her-day-pager';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { WebBadge } from '@/components/web-badge';
@@ -10,98 +11,77 @@ import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useCycleDay } from '@/context/cycle-day-context';
 import {
   CYCLE_MODEL_DISCLAIMER,
-  ESTROGEN_28,
-  PROGESTERONE_28,
   TESTOSTERONE_24H,
 } from '@/data/cycleCurves';
 import { MEDICAL_DISCLAIMER } from '@/data/disclaimers';
 import { useTheme } from '@/hooks/use-theme';
+import { formatHourLabel } from '@/lib/format-hour';
 import { getCyclePhase } from '@/lib/cyclePhase';
 
 const MALE_BAR = '#6B9BFF';
 const MALE_DIM = '#3D5A8C';
-const E_BAR = '#EC407A';
-const E_DIM = '#884060';
-const P_BAR = '#B39DDB';
-const P_DIM = '#6A5A8C';
 
 export default function DashboardScreen() {
   const theme = useTheme();
-  const { cycleDay, setCycleDay } = useCycleDay();
-  const hour = useMemo(() => new Date().getHours(), []);
+  const { cycleDay, setCycleDay, selectedHour, setSelectedHour } = useCycleDay();
   const phase = getCyclePhase(cycleDay);
-  const dayIndex = Math.min(28, Math.max(1, cycleDay)) - 1;
 
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safe}>
         <ScrollView
           contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}>
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled>
           <ThemedView style={styles.inner}>
             <ThemedText type="title" style={styles.title}>
-              Two rhythms, one team
+              Daily testosterone & cycle hormones
             </ThemedText>
             <ThemedText style={styles.tagline} themeColor="textSecondary">
-              Relationship skill, not a period quiz—see rough energy patterns so you can plan dates, give space, and
-              dodge avoidable arguments. Models only; she&apos;s the source of truth on how she feels.
+              Relationship skill, not a period quiz—same 24-hour strip for both of you. Swipe her day to match where she
+              is in the month; tap any bar to pick an hour. She&apos;s the source of truth on how she feels.
             </ThemedText>
 
             <ThemedView type="backgroundElement" style={styles.card}>
-              <ThemedText type="subtitle">Your 24-hour energy rhythm</ThemedText>
+              <ThemedText type="subtitle">Testosterone, 24 hours</ThemedText>
               <ThemedText type="small" themeColor="textSecondary" style={styles.cardLede}>
-                Typical male-pattern curve: stronger after sleep, quieter late night. Dot follows your phone&apos;s clock
-                hour. Chart is 0–100% of this demo curve—not lab numbers.
+                Typical male-pattern curve: stronger after sleep, quieter late night. Tap a bar to set the highlighted
+                hour (same marker carries to her strips below). Scale is 0–100% on this chart.
+              </ThemedText>
+              <ThemedText type="smallBold" themeColor="textSecondary">
+                Selected: {formatHourLabel(selectedHour)}
               </ThemedText>
               <CycleStripChart
                 values={TESTOSTERONE_24H}
-                activeIndex={hour}
+                activeIndex={selectedHour}
                 barColor={MALE_BAR}
                 dimColor={MALE_DIM}
                 startLabel="12a"
                 endLabel="11p"
                 yAxisTitle="Relative level"
+                onBarPress={setSelectedHour}
               />
             </ThemedView>
 
             <ThemedView type="backgroundElement" style={styles.card}>
-              <View style={styles.cardHeaderRow}>
-                <ThemedText type="subtitle">Her ~4-week rhythm (rough model)</ThemedText>
-              </View>
+              <ThemedText type="subtitle">Estrogen & progesterone, 24 hours (one cycle day)</ThemedText>
               <ThemedText type="small" themeColor="textSecondary" style={styles.cardLede}>
-                Two curves behind the scenes (energy / stress-ish patterns many apps never show partners). Move the day
-                below to match where she is in her cycle—day {cycleDay}. Y-axis is 0–100% of each demo curve so you see
-                shape, not lab units.
+                Swipe sideways for day 1–28, or use the stepper. Hourly bars blend this day&apos;s level toward the next
+                day with a mild day/night variation. Same hour column as your chart—tap to pick.
               </ThemedText>
-              <ThemedText type="smallBold" style={styles.rowLabel}>
-                Curve A — often tracks &quot;social / upbeat&quot; vibes in the model
-              </ThemedText>
-              <CycleStripChart
-                values={ESTROGEN_28}
-                activeIndex={dayIndex}
-                barColor={E_BAR}
-                dimColor={E_DIM}
-                startLabel="D1"
-                endLabel="D28"
-              />
-              <ThemedText type="smallBold" style={[styles.rowLabel, styles.secondHormone]}>
-                Curve B — often tracks wind-down / stressy weeks for some people
-              </ThemedText>
-              <CycleStripChart
-                values={PROGESTERONE_28}
-                activeIndex={dayIndex}
-                barColor={P_BAR}
-                dimColor={P_DIM}
-                startLabel="D1"
-                endLabel="D28"
+              <HerDayPager
+                cycleDay={cycleDay}
+                setCycleDay={setCycleDay}
+                selectedHour={selectedHour}
+                setSelectedHour={setSelectedHour}
               />
             </ThemedView>
 
             <ThemedView type="backgroundElement" style={styles.card}>
-              <ThemedText type="subtitle">Where is she in the month? (demo slider)</ThemedText>
+              <ThemedText type="subtitle">Cycle day</ThemedText>
               <ThemedText type="small" themeColor="textSecondary" style={styles.cardLede}>
-                For the hackathon this is manual—later it&apos;s her choice what (if anything) syncs. The Moves tab uses
-                this same day.
+                Stays in sync with swiping the cards above. Later, she chooses what (if anything) syncs. Suggestions tab
+                uses this same day.
               </ThemedText>
               <View style={styles.stepper}>
                 <Pressable
@@ -123,7 +103,12 @@ export default function DashboardScreen() {
                 </Pressable>
               </View>
               <ThemedView style={[styles.phasePill, { borderColor: theme.textSecondary }]}>
-                <ThemedText type="smallBold">{phase.partnerTitle}</ThemedText>
+                <ThemedText type="subtitle" style={styles.phaseName}>
+                  {phase.phaseName}
+                </ThemedText>
+                <ThemedText type="smallBold" themeColor="textSecondary" style={styles.phaseSubtitle}>
+                  {phase.partnerTitle}
+                </ThemedText>
                 <ThemedText type="small" themeColor="textSecondary" style={styles.phaseSummary}>
                   {phase.partnerSummary}
                 </ThemedText>
@@ -181,20 +166,9 @@ const styles = StyleSheet.create({
     padding: Spacing.four,
     gap: Spacing.three,
   },
-  cardHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
   cardLede: {
     lineHeight: 20,
     marginTop: -Spacing.two,
-  },
-  rowLabel: {
-    marginBottom: -Spacing.two,
-  },
-  secondHormone: {
-    marginTop: Spacing.two,
   },
   stepper: {
     flexDirection: 'row',
@@ -223,11 +197,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     gap: Spacing.two,
   },
+  phaseName: {
+    textAlign: 'left',
+  },
+  phaseSubtitle: {
+    lineHeight: 20,
+  },
   phaseSummary: {
     lineHeight: 20,
   },
   technicalHint: {
-    marginTop: Spacing.two,
+    marginTop: Spacing.one,
     fontSize: 12,
     opacity: 0.85,
   },

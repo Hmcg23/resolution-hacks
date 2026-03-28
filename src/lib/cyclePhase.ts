@@ -2,11 +2,13 @@ export type CyclePhaseId = 'menstrual' | 'follicular' | 'ovulation' | 'luteal';
 
 export type CyclePhaseInfo = {
   id: CyclePhaseId;
-  /** Plain headline for partners (no shame, minimal jargon) */
+  /** Literal phase name for pill / headers */
+  phaseName: string;
+  /** Vivid one-liner (subtitle under phase name) */
   partnerTitle: string;
   /** One or two sentences, friend tone */
   partnerSummary: string;
-  /** Tiny print for accuracy / judges—optional in UI */
+  /** Fine print: which cycle days map to this phase in this 28-day view */
   technicalLabel: string;
 };
 
@@ -15,40 +17,44 @@ const PHASES: { maxDay: number; info: CyclePhaseInfo }[] = [
     maxDay: 5,
     info: {
       id: 'menstrual',
+      phaseName: 'Menstrual phase',
       partnerTitle: 'Low-energy / reset week (for many)',
       partnerSummary:
         'Lots of people feel wiped or crampy—not everyone. Low-key plans and having supplies on hand go a long way. No need to make a speech.',
-      technicalLabel: 'Menstrual phase (model)',
+      technicalLabel: 'Cycle days 1–5 in this view',
     },
   },
   {
     maxDay: 13,
     info: {
       id: 'follicular',
+      phaseName: 'Follicular phase',
       partnerTitle: 'Social battery often comes back',
       partnerSummary:
-        'In this rough model, many people feel clearer and more up for people and plans. Still ask—she’s not a textbook.',
-      technicalLabel: 'Follicular phase (model)',
+        'Many people feel clearer and more up for people and plans here. Still ask—she’s not a textbook.',
+      technicalLabel: 'Cycle days 6–13 in this view',
     },
   },
   {
     maxDay: 16,
     info: {
       id: 'ovulation',
+      phaseName: 'Ovulatory phase',
       partnerTitle: 'High-voltage week for some',
       partnerSummary:
         'Mid-cycle can mean big energy—or feeling overstimulated. Offer options instead of locking in one plan.',
-      technicalLabel: 'Ovulation window (model)',
+      technicalLabel: 'Cycle days 14–16 in this view',
     },
   },
   {
     maxDay: 28,
     info: {
       id: 'luteal',
+      phaseName: 'Luteal phase',
       partnerTitle: 'Wind-down week (stress or fatigue for some)',
       partnerSummary:
         'Some people feel irritable, tender, or tired before their period—many don’t. Patience and flexible plans beat pep talks.',
-      technicalLabel: 'Luteal phase (model)',
+      technicalLabel: 'Cycle days 17–28 in this view',
     },
   },
 ];

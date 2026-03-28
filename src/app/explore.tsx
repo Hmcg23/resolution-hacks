@@ -57,7 +57,7 @@ export default function LoadoutScreen() {
       contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
       <ThemedView style={styles.container}>
         <ThemedView style={styles.header}>
-          <ThemedText type="subtitle">Decisions for two</ThemedText>
+          <ThemedText type="subtitle">Birth control methods</ThemedText>
           <ThemedText style={styles.lede} themeColor="textSecondary">
             Birth control isn&apos;t a solo stat sheet—here&apos;s a neutral compare screen you can use before a clinic
             visit. Typical-use numbers from public-health ranges; every body is different.
@@ -103,7 +103,7 @@ export default function LoadoutScreen() {
           </View>
 
           <ThemedText type="smallBold" style={styles.themesTitle}>
-            Common theme modifiers (illustrative)
+            Common theme modifiers
           </ThemedText>
           {method.themes.map((t) => (
             <View key={t.label} style={styles.themeLine}>

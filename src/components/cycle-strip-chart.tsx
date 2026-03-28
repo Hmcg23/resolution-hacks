@@ -1,10 +1,10 @@
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
-/** Chart strip height in px; bars scale as value × this height (values assumed in [0, 1]). */
+/** Chart strip height in px; bars scale as value × plot height (values assumed in [0, 1]). */
 const PLOT_HEIGHT = 80;
 const MIN_BAR_HEIGHT = 3;
 const Y_AXIS_WIDTH = 36;
@@ -20,6 +20,8 @@ type StripChartProps = {
   endLabel?: string;
   /** Shown above the chart; omit when the section heading already names the series */
   yAxisTitle?: string;
+  /** When set, bars are tappable (e.g. pick hour of day) */
+  onBarPress?: (index: number) => void;
 };
 
 export function CycleStripChart({
@@ -30,6 +32,7 @@ export function CycleStripChart({
   startLabel,
   endLabel,
   yAxisTitle,
+  onBarPress,
 }: StripChartProps) {
   const theme = useTheme();
 
@@ -68,18 +71,29 @@ export function CycleStripChart({
               const clamped = Math.min(1, Math.max(0, v));
               const h = Math.max(MIN_BAR_HEIGHT, clamped * PLOT_HEIGHT);
               const isActive = i === activeIndex;
+              const bar = (
+                <View
+                  style={[
+                    styles.bar,
+                    {
+                      height: h,
+                      backgroundColor: isActive ? barColor : dimColor,
+                      opacity: isActive ? 1 : 0.45,
+                    },
+                  ]}
+                />
+              );
               return (
                 <View key={i} style={styles.barSlot}>
-                  <View
-                    style={[
-                      styles.bar,
-                      {
-                        height: h,
-                        backgroundColor: isActive ? barColor : dimColor,
-                        opacity: isActive ? 1 : 0.45,
-                      },
-                    ]}
-                  />
+                  {onBarPress ? (
+                    <Pressable
+                      onPress={() => onBarPress(i)}
+                      style={({ pressed }) => [styles.barPress, pressed && styles.barPressed]}>
+                      {bar}
+                    </Pressable>
+                  ) : (
+                    bar
+                  )}
                 </View>
               );
             })}
@@ -163,6 +177,14 @@ const styles = StyleSheet.create({
   barSlot: {
     flex: 1,
     justifyContent: 'flex-end',
+  },
+  barPress: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    minHeight: PLOT_HEIGHT,
+  },
+  barPressed: {
+    opacity: 0.85,
   },
   bar: {
     borderRadius: 2,

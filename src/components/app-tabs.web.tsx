@@ -21,13 +21,13 @@ export default function AppTabs() {
       <TabList asChild>
         <CustomTabList>
           <TabTrigger name="index" href="/" asChild>
-            <TabButton>Sync</TabButton>
+            <TabButton>Rhythms</TabButton>
           </TabTrigger>
           <TabTrigger name="explore" href="/explore" asChild>
-            <TabButton>Loadout</TabButton>
+            <TabButton>Contraception</TabButton>
           </TabTrigger>
           <TabTrigger name="playbook" href="/playbook" asChild>
-            <TabButton>Moves</TabButton>
+            <TabButton>Suggestions</TabButton>
           </TabTrigger>
         </CustomTabList>
       </TabList>

@@ -105,18 +105,21 @@ export default function PlaybookScreen() {
       contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}>
       <ThemedView style={styles.container}>
         <ThemedView style={styles.header}>
-          <ThemedText type="subtitle">What you can do</ThemedText>
+          <ThemedText type="subtitle">Suggestions by cycle phase</ThemedText>
           <ThemedText style={styles.lede} themeColor="textSecondary">
-            Plain prompts based on the day you set on the sync screen (day {cycleDay}). Not a script—steal the vibe, not
+            Plain prompts based on the cycle day you set on Rhythms (day {cycleDay}). Not a script—steal the vibe, not
             the words.
           </ThemedText>
         </ThemedView>
 
         <ThemedView type="backgroundElement" style={styles.heroCard}>
           <ThemedText type="smallBold" themeColor="textSecondary">
-            This week in the model
+            Current phase
           </ThemedText>
-          <ThemedText type="subtitle">{phase.partnerTitle}</ThemedText>
+          <ThemedText type="subtitle">{phase.phaseName}</ThemedText>
+          <ThemedText type="smallBold" themeColor="textSecondary" style={styles.heroSubtitle}>
+            {phase.partnerTitle}
+          </ThemedText>
           <ThemedText type="small" themeColor="textSecondary" style={styles.heroBody}>
             {phase.partnerSummary}
           </ThemedText>
@@ -130,7 +133,7 @@ export default function PlaybookScreen() {
         ))}
 
         <ThemedText type="smallBold" style={styles.sectionLabel}>
-          Always decent moves
+          General suggestions
         </ThemedText>
         {GENERAL_CARDS.map((card) => (
           <Card key={card.title} title={card.title} body={card.body} />
@@ -183,6 +186,10 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.four,
     padding: Spacing.four,
     gap: Spacing.two,
+  },
+  heroSubtitle: {
+    lineHeight: 20,
+    marginTop: Spacing.one,
   },
   heroBody: {
     lineHeight: 22,
